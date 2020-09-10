@@ -18,4 +18,13 @@ export class TaskService {
       catchError((err: any) => throwError(err)),
     );
   }
+
+  update(task: Task): Observable<Task> {
+    return this.http.put<Task>(`${this.baseUrl}/${task.id}`, task)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
+  }
 }
