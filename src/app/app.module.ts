@@ -10,6 +10,7 @@ import { TaskService } from './services/task.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TaskDetailComponent } from './task/task-detail/task-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]
