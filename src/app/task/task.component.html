@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">ID</th>
           <th scope="col">Description</th>
           <th scope="col">Done</th>
           <th scope="col">Actions</th>
@@ -13,20 +14,20 @@
       <tbody>
         <tr *ngFor="let task of tasks; index as i">
           <th scope="row">{{ i + 1 }}</th>
+          <td>{{ task.id }}</td>
           <td>{{ task.description }}</td>
           <td>
             <div class="form-group">
               <div class="custom-control custom-switch">
                 <input
-                  id="doneSwitch"
+                  id="doneStatusInput{{i}}"
                   name="done"
                   class="custom-control-input"
                   type="checkbox"
                   (change)="handleDoneChange(task, $event.target.checked)"
                   [checked]="task.done"
                 />
-                <label class="custom-control-label" for="doneSwitch"></label
-                >
+                <label class="custom-control-label" for="doneStatusInput{{i}}"></label>
               </div>
             </div>
           </td>
@@ -41,7 +42,8 @@
             >
               Edit
             </button>
-            <button type="button" class="btn btn-danger ml-10">Delete</button>
+
+            <button type="button" class="btn btn-danger ml-10" (click)="askDelete(task)">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -55,7 +57,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="taskDetailModalLabel">Edit Task</h5>
+        <h5 class="modal-title" id="taskDetailModalLabel">Editing Task ID {{selectedTask.id}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -70,8 +72,8 @@
         </div>
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" >Save changes</button>
+          <button id="closeModalBtn" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
           <!-- disabled="!taskDetailForm.valid" -->
         </div>
       </form>
