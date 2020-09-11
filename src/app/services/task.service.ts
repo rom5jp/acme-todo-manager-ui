@@ -20,7 +20,7 @@ export class TaskService {
   }
 
   create(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.baseUrl}`, task)
+    return this.http.post<Task>(`${this.baseUrl}`, task)
       .pipe(
         catchError((err) => {
           return throwError(err);
