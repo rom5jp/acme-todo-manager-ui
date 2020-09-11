@@ -27,4 +27,13 @@ export class TaskService {
         }),
       );
   }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<Task>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
+  }
 }
