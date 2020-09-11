@@ -33,8 +33,7 @@ export class TaskComponent implements OnInit {
       },
       (responseError) => {
         this.toastr.error('An error has occurred while trying to load the tasks');
-        console.error('An error has occurred while trying to load the tasks',responseError
-        );
+        console.error('An error has occurred while trying to load the tasks',responseError);
       },
       () => {
         console.debug('>> This is just an example of the "complete" step of an observable subscribe.');
@@ -93,24 +92,49 @@ export class TaskComponent implements OnInit {
   handleSubmit() {
     this.formSubmitted = true;
 
-    const modifiedTask: Task = {
+    const taskCandidate: Task = {
       ...this.selectedTask,
       description: this.taskDetailForm.get('description').value,
+      done: this.selectedTask?.done || false
     };
 
-    this.service.update(modifiedTask).subscribe(
-      () => {
-        this.toastr.success('Task updated', 'Success');
-        document.getElementById('closeModalBtn').click();
-        this.selectedTask = undefined;
-      },
-      (responseError) => {
-        this.toastr.error('An error has occurred while trying to change the task description');
-        console.error('An error has occurred while trying to change the task description', responseError);
-      },
-      () => {
-        this.loadTasks();
-      }
-    );
+    if (!!taskCandidate.id) {
+      this.service.update(taskCandidate).subscribe(
+        () => {
+          this.toastr.success('Task updated', 'Success');
+          this.selectedTask = undefined;
+        },
+        (responseError) => {
+          this.toastr.error('An error has occurred while trying to change the task description');
+          console.error('An error has occurred while trying to change the task description', responseError);
+          document.getElementById('closeModalBtn').click();
+          this.taskDetailForm.reset();
+        },
+        () => {
+          this.loadTasks();
+        }
+      );
+    } else {
+      this.service.create(taskCandidate).subscribe(
+        () => {
+          this.toastr.success('Task created', 'Success');
+          this.selectedTask = undefined;
+        },
+        (responseError) => {
+          this.toastr.error('An error has occurred while trying to create the new task');
+          console.error('An error has occurred while trying to create the new task', responseError);
+          document.getElementById('closeModalBtn').click();
+          this.taskDetailForm.reset();
+        },
+        () => {
+          this.loadTasks();
+        }
+      );
+    }
+    
+  }
+
+  generateModalTitle(): string {
+    return this.selectedTask ? `Editing Task ID ${this.selectedTask.id}` : `New Task Creation`;
   }
 }
