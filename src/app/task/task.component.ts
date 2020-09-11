@@ -107,10 +107,10 @@ export class TaskComponent implements OnInit {
         (responseError) => {
           this.toastr.error('An error has occurred while trying to change the task description');
           console.error('An error has occurred while trying to change the task description', responseError);
-          document.getElementById('closeModalBtn').click();
-          this.taskDetailForm.reset();
         },
         () => {
+          document.getElementById('closeModalBtn').click();
+          this.taskDetailForm.reset();
           this.loadTasks();
         }
       );
@@ -123,10 +123,10 @@ export class TaskComponent implements OnInit {
         (responseError) => {
           this.toastr.error('An error has occurred while trying to create the new task');
           console.error('An error has occurred while trying to create the new task', responseError);
-          document.getElementById('closeModalBtn').click();
-          this.taskDetailForm.reset();
         },
         () => {
+          document.getElementById('closeModalBtn').click();
+          this.taskDetailForm.reset();
           this.loadTasks();
         }
       );
