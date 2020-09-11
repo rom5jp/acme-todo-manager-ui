@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';
-import { Task } from '../models/task.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Task } from '../models/task';
 
 @Component({
   selector: 'task',
@@ -10,8 +11,14 @@ import { Task } from '../models/task.model';
 export class TaskComponent implements OnInit {
   tasks: Task[] = [];
   selectedTask: Task;
+  taskDetailForm: FormGroup;
+  formSubmitted: boolean = false;
 
-  constructor(private service: TaskService) { }
+  constructor(private service: TaskService, private formBuilder: FormBuilder) { 
+    this.taskDetailForm = this.formBuilder.group({
+      "description": [undefined, Validators.required],
+    })
+  }
 
   ngOnInit(): void {
     this.loadTasks();
@@ -35,6 +42,7 @@ export class TaskComponent implements OnInit {
 
   handleSelect(task: Task): void {
     this.selectedTask = task;
+    this.taskDetailForm.patchValue({ description: this.selectedTask.description });
   }
 
   handleDoneChange(task, newDoneValue): void {
@@ -43,6 +51,26 @@ export class TaskComponent implements OnInit {
       (responseError) => {
         alert('An error has occurred while trying to change the task status');
         console.error('An error has occurred while trying to change the task status', responseError);
+      },
+      () => {
+        this.loadTasks();
+      }
+    );
+  }
+
+  handleSubmit() { 
+    this.formSubmitted = true;
+
+    const modifiedTask: Task = {
+      ...this.selectedTask,
+      description: this.taskDetailForm.get('description').value
+    };
+
+    this.service.update(modifiedTask).subscribe(
+      (responseSuccess) => {},
+      (responseError) => {
+        alert('An error has occurred while trying to change the task description');
+        console.error('An error has occurred while trying to change the task description', responseError);
       },
       () => {
         this.loadTasks();
