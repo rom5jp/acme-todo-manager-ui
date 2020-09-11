@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "acme-todo-manager": {
+    "acme-todo-manager-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/acme-todo-manager",
+            "outputPath": "dist/acme-todo-manager-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "acme-todo-manager:build"
+            "browserTarget": "acme-todo-manager-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "acme-todo-manager:build:production"
+              "browserTarget": "acme-todo-manager-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "acme-todo-manager:build"
+            "browserTarget": "acme-todo-manager-ui:build"
           }
         },
         "test": {
@@ -119,16 +119,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "acme-todo-manager:serve"
+            "devServerTarget": "acme-todo-manager-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "acme-todo-manager:serve:production"
+              "devServerTarget": "acme-todo-manager-ui:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "acme-todo-manager"
+  "defaultProject": "acme-todo-manager-ui"
 }
